@@ -156,25 +156,25 @@ public class ServerThread extends Thread {
         //K
         BigInteger K = AuthenticationUtil.sha256(S.toString(16));
         //M1
-        BigInteger M1 = AuthenticationUtil.get_M(login, salt, A, B, K);
-        //M2
-        BigInteger M2 = AuthenticationUtil.get_M2(A, M1, K);
+        BigInteger M = AuthenticationUtil.get_M(login, salt, A, B, K);
+        //R
+        BigInteger R = AuthenticationUtil.get_R(A, M1, K);
 
         //get M from client
         inMsg = (Message) inputStream.readObject();
-        BigInteger clientM1 = new BigInteger(inMsg.getText(), 16);
+        BigInteger clientM = new BigInteger(inMsg.getText(), 16);
 
-        System.out.println("M1:\n" + M1.toString(16));
-        System.out.println("Server M1:\n" + clientM1.toString(16));
+        System.out.println("M1:\n" + M.toString(16));
+        System.out.println("Server M1:\n" + clientM.toString(16));
 
-        if(M1.compareTo(clientM1) == 0) {
+        if(M.compareTo(clientM) == 0) {
             System.out.println("Authentication success.");
         } else {
             System.out.println("Authentication failure. Wrong log:pass.");
             return false;
         }
-        //send M2 to client
-        outMsg = new Message(serverName, M2.toString(16));
+        //send R to client
+        outMsg = new Message(serverName, R.toString(16));
         outMsg.setTag(Message.TAG_REG);
         outputStream.writeObject(outMsg);
         return true;
