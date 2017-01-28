@@ -136,7 +136,7 @@ public class Client {
         //M
         BigInteger M1 = AuthenticationUtil.get_M(login, salt, A, B, K);
         //R
-        BigInteger M2 = AuthenticationUtil.get_M2(A, M1, K);
+        BigInteger R = AuthenticationUtil.get_R(A, M1, K);
 
         //send M to server
         outMsg = new Message(login, M1.toString(16));
@@ -145,9 +145,9 @@ public class Client {
 
         //get R from server
         inMsg = (Message) inputStream.readObject();
-        BigInteger serverM2 = new BigInteger(inMsg.getText(), 16);
+        BigInteger serverR = new BigInteger(inMsg.getText(), 16);
 
-        if(M2.compareTo(serverM2) == 0) {
+        if(R.compareTo(serverR) == 0) {
             System.out.println("<Authentication>: Success.");
         } else {
             System.out.println("<Authentication>: Failure. Wrong log:pass.");
