@@ -158,7 +158,7 @@ public class AuthenticationUtil {
                 K.toString(16));
     }
 
-    public static BigInteger get_M2(BigInteger A, BigInteger M1, BigInteger K) throws NoSuchAlgorithmException {
+    public static BigInteger get_R(BigInteger A, BigInteger M1, BigInteger K) throws NoSuchAlgorithmException {
         return sha256(A.toString(16) +
                 M1.toString(16) +
                 K.toString(16));
