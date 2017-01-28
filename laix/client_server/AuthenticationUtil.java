@@ -214,4 +214,68 @@ public class AuthenticationUtil {
     public static String decryptText(String srcTxt, int shift) {
         return encryptText(srcTxt, -shift);
     }
+    
+    public String analyse(String input) {
+        Map<Character, Integer> freqMap = new HashMap<Character, Integer>;
+        String alphabet = "абвгдежзийклмнопрстуфцхчшщъыьэюя";
+        for( char s : alphabet.toCharArray() ) {
+            freqMap.put(new Character(s), new Integer(0));
+        }
+        
+        for( char s : input.toCharArray() ) {
+            Integer frequency = freqMap.get(s);
+            freqMap.put(s, frequency++);
+        }
+        Map<Character, Integer> constFreq = new HashMap<Character, Integer>();
+        constFreq.put('а', 45172*10000/538566);
+        constFreq.put('б', 9302*10000/538566);
+        constFreq.put('в', 24790*10000/538566);
+        constFreq.put('г', 11168*10000/538566);
+        constFreq.put('д', 16380*10000/538566);
+        constFreq.put('е', 42469*10000/538566);
+        constFreq.put('ё', 431*10000/538566);
+        constFreq.put('ж', 5456*10000/538566);
+        constFreq.put('з', 9592*10000/538566);
+        constFreq.put('и', 35785*10000/538566);
+        constFreq.put('к', 19314*10000/538566);
+        constFreq.put('л', 27258*10000/538566);
+        constFreq.put('м', 15918*10000/538566);
+        constFreq.put('н', 35095*10000/538566);
+        constFreq.put('о', 61225*10000/538566);
+        constFreq.put('п', 13837*10000/538566);
+        constFreq.put('р', 24543*10000/538566);
+        constFreq.put('с', 28100*10000/538566);
+        constFreq.put('т', 30585*10000/538566);
+        constFreq.put('у', 15443*10000/538566);
+        constFreq.put('ф', 1206*10000/538566);
+        constFreq.put('х', 4595*10000/538566);
+        constFreq.put('ч', 7338*10000/538566);
+        constFreq.put('ш', 5087*10000/538566);
+        constFreq.put('щ', 1511*10000/538566);
+        constFreq.put('ц', 2179*10000/538566);
+        constFreq.put('э', 1628*10000/538566);
+        constFreq.put('ъ', 283*10000/538566);
+        constFreq.put('ь', 10490*10000/538566);
+        constFreq.put('ы', 10223*10000/538566);
+        constFreq.put('ю', 3494*10000/538566);
+        constFreq.put('я', 12468*10000/538566);
+        constFreq.put('й', 6201*10000/538566);
+        
+        
+        Map<Character, Character> resMap = new HashMap<Character,Character>();
+        for(Map.Entry<Character, Integer> curFreq : freqMap.entrySet()) {
+            for(Map.Entry<Character, Integer> curConstFreq : constFreq.entrySet()) {
+                t = curFreq.getValue();
+                if(t - 0.14 < curFreq.getValue() && curFreq.getValue() < t + 0.14)
+                    resMap.put(curFreq.getKey(), curConstFreq.getKey());
+            }
+        }
+        
+        String result = "";
+        for(char s : input.toCharArray()) {
+            b = resMap.get(s);
+            result = result + b;
+        }
+        return result;
+    }
 }
